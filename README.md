@@ -12,10 +12,10 @@ SH3DO comes with a free starter plan to enable plan editing and 3D visualization
 
 You can try out the demo service, just by using the given examples provided in the examples directory. 
 
-- Clone this project
-- In a console, go to the examples directory of this project
+- Clone this repo
+- In a console, go to root directory of this repo
 - Start a local web server running on 8000 (for instance with Python 2: ``python -m SimpleHTTPServer``)
-- Test by opening ``http://localhost:8000/demo0.html`` in a browser, to open a defautl sh3d file
+- Test by opening ``http://localhost:8000/demos/demo0.html`` in a browser, to open a defautl sh3d file
 
 For security reasons, the demo server will only work when accessed from a site that is running on localhost:8000. In order to run the examples from another origin (for instance, you own domain, then you need a retailer API key and you need to contact us for getting one)
 
