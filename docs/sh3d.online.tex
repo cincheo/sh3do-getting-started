@@ -1,0 +1,2209 @@
+\documentclass[a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[a4paper, margin=3cm]{geometry}
+\usepackage{times}
+\usepackage{graphicx} 
+%\usepackage{color}
+%\usepackage{multirow}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{hyperref}
+\usepackage{wrapfig}
+\usepackage{titling}
+\usepackage{array}
+\usepackage{tabularx}
+
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{color}
+\usepackage{titlesec}
+\usepackage[htt]{hyphenat}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{lightgray}{rgb}{0.95,0.95,0.95}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{lightgray}{rgb}{0.7,0.7,0.7}
+\definecolor{lightlightgray}{rgb}{0.98,0.98,0.98}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\lstset{
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=2,
+  backgroundcolor=\color{lightlightgray},
+  frame=single,
+  rulecolor=\color{lightgray},
+  morekeywords={assert}
+}
+
+\titleformat{\chapter}{\bfseries\LARGE}{\thechapter.}{1ex}{}[]
+\titlespacing{\chapter}{0pt}{20pt}{16pt}
+
+\pretitle{%
+  \begin{center}
+  \LARGE
+  \includegraphics[width=8cm]{sh3d-logo}\\[\bigskipamount]
+}
+\posttitle{\end{center}}
+
+\newcommand{\code}[1]{\texttt{\small #1}}
+\newcommand{\api}[1]{\subsection*{\normalsize\texttt{#1}}}
+
+% PANDOC-specific
+\usepackage{longtable}
+\usepackage{booktabs}
+\DeclareUnicodeCharacter{21D2}{:}
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\begin{document}
+
+\title{Sweet Home 3D Online - User guide\\{\large Version 1.0}}
+\author{%
+Renaud Pawlak\\
+{\normalsize renaud.pawlak@gmail.com / renaud.pawlak@cincheo.fr}\\
+{\normalsize http://www.sh3d.online}\\
+}% author
+\date{}
+\maketitle
+
+\tableofcontents
+
+\chapter*{Introduction}
+
+Sweet Home 3D™ is a 2D/3D floor planning and plan editor/viewer Open Source software. It has been developed by Emmanuel Puybaret (eTeks) for the last 15 years and has a strong and active community. 
+
+Sweet Home 3D JS is also Open Source and is the Web version of Sweet Home 3D. It has been co-developed by Emmanuel Puybaret (eTeks) and Renaud Pawlak (Cinchéo). A demo version can be found at \url{http://www.sweethome3d.com/SweetHome3DOnlineManager.jsp}.
+
+The Sweet Home 3D Online™ product (SH3DO™ for short) allows businesses to take advantage of Sweet Home 3D and Sweet Home 3D JS. It provides a ready-to-use server and an Web-Service-based API for easy integration in any web site. The constraints of the Open Source licensing are relaxed so that one can fully customize the product for its own constraints and needs. 
+
+SH3DO™ entails with the following characteristics and components:
+
+\begin{itemize}
+\item 2D plan editor for the Web;
+\item 3D viewer (in sync with the 2D plan editor);
+\item furniture catalog web component;
+\item compatibility with Safari, Chrome and IE, including mobile versions;
+\item easy ecommerce website integration (pure HTML/Javascript, frameworkless);
+\item cloud servers for serving the viewer component + reading and saving project files (for development, pre-production, and production environments);
+\item maintenance;
+\item backups;
+\item an integration and customization API (brand, colors, layout, etc);
+\item tools for furniture / object catalog customization.
+\end{itemize}
+
+This document aims at providing the technical documentation to integrate and customize SH3DO™ in your own Web site. It requires basic Web programming knowledge. If you do not have programming knowledge in house, Cinchéo provides development services in order to help you with SH3DO™ integration and customization.
+
+\chapter{Getting started} 
+
+\section{Registration and Retailer Keys}
+
+The commercial licensing of Sweet Home 3D Online is brought to you by Cinchéo / eTeks. This license allows you to tune the Sweet Home 3D Online product and integrate it in a website. Once you have purchased a license, you will get a Retailer Key that will allow you to access one of the available servers (environments).
+
+For each environment, a Retailer Key is bound to a Domain Name (for instance \url{https://mycompany.com}), which is the domain that host the web site you want to integrate SH3DO with. Any request coming from another origin than the declared domain name will not be allowed.
+
+Note that the communication between your web site and the SH3DO services is secured with CORS and HTTPS.
+
+\section{Environments (dev, preprod, prod)}
+
+Your Retailer Key will allow you to securely access the following environments:
+
+\begin{itemize}
+\item Your development environment (\url{https://dev.sh3d.online}). This environment will accept requests with your Retailer Key coming only from \url{http://localhost:8000} or \url{http://localhost:8080}. It is to be used for development and debugging purposes only. Data and files may be erased at any time and should be stored for testing purpose.
+\item Your pre-production/QA environment (\url{https://preprod.sh3d.online}). This optional environment will accept requests with your Retailer Key coming from the origin domain you will have declared to us. It is to be used for QA and testing purposes only. Data and files may be erased at any time and should be stored for testing purpose.
+\item Your production environment (\url{https://prod.sh3d.online}). This is the actual environment, which will accept requests with your Retailer Key coming from the origin domain you will have declared to us. User data will be safely backed-up and will remain there as long as you need it and hold a valid license.
+\end{itemize}
+
+\section{The Demo environment}
+
+For testing the API without having your Retailer Key available yet, you may access the demo environment, which is open to everyone and can be used with the Retailer Key 12345.
+
+The following code shows a typical example to show a full SH3DO plan editor / 3D view / Furniture catalog using the 12345 Retailer Key on the demo server. In order to make it work, you need to start a local HTTP server to serve the file. 
+
+Assuming that you have Python installed on your computer, one of the simplest way is to use a Python HTTP server. Follow the steps:
+
+\begin{itemize}
+\item Create an \url{index.html} file and copy the HTML content below in the file.
+\item Open a terminal, go to the folder where you just have created the index file.
+\item Launch the HTTP server with the command: \texttt{python -m SimpleHTTPServer}.
+\item Open the \url{http://localhost:8000} with your favorite browser.
+\end{itemize}
+
+\begin{lstlisting}[language=html,caption={Basic example},captionpos=b,label={lst:basic-example}]]
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="minimal-ui, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+<meta name="format-detection" content="telephone=no">
+<meta name="msapplication-tap-highlight" content="no">
+<title>SweetHome3DJS Test</title>
+<script type="text/javascript" src="https://demo.sh3d.online/lib/sweethome3d.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://demo.sh3d.online/css/sweethome3d.css">
+</head>
+<body>
+
+<div id="home-pane">
+  <canvas id="home-3D-view" style="background-color: #CCCCCC;" 
+          tabIndex="1"></canvas>
+  <div id="home-plan" style="background-color: #FFFFFF; color: #000000"         
+          tabIndex="2" ></div>
+  <div id="home-pane-toolbar"></div>
+  <div id="furniture-catalog"></div>
+</div>
+
+<script type="text/javascript">
+var homeName = "HomeTest";
+var urlBase = "https://demo.sh3d.online/";
+var application = new SweetHome3DJSApplication(
+    {readHomeURL:       urlBase + "api/readHome/12345/test?home=%s",
+     writeHomeEditsURL: urlBase + "api/writeHomeEdits/12345/test?home=%s",
+     //closeHomeURL:      urlBase + "closeHome.jsp?home=%s",
+     pingURL:           urlBase + "api/ping",
+     furnitureCatalogURLs: [urlBase + "lib/resources/DefaultFurnitureCatalog.json"],
+     furnitureResourcesURLBase: urlBase,
+     autoWriteDelay:    1000,
+     autoWriteTrackedStateChange: true,
+     writingObserver:   {
+         writeStarted: function(update) {
+           console.info("Update started", update);
+         },
+         writeSucceeded: function(update) {
+           console.info("Update succeeded", update);
+         },
+         writeFailed: function(update, errorStatus, errorText) {
+           console.info("Update failed", update);
+         },
+         connectionFound: function() {
+           console.info("Back to online mode");
+         },
+         connectionLost: function(errorStatus, errorText) {
+           console.info("Lost server connection - going offline");
+         }
+       }
+    });
+
+// Set a few settings
+application.getUserPreferences().setNewRoomFloorColor(0xFF9999A0);
+application.getUserPreferences().setAerialViewCenteredOnSelectionEnabled(true);
+
+// Read and display test file 
+application.getHomeRecorder().readHome(homeName, 
+    {
+      homeLoaded: function(home) {
+        home.setName(homeName);
+        application.addHome(home);
+        
+        window.addEventListener("unload", function() {
+            application.deleteHome(home);
+          });
+      },
+      homeError: function(err) {
+        console.error(err);
+      },
+      progression: function(part, info, percentage) {
+      }
+    });
+</script>
+
+</body>
+</html>
+\end{lstlisting}
+
+\chapter{Integration and Customization examples} 
+
+One can integrate SH3DO with any web site. Integration requires the following:
+
+\begin{itemize}
+\item Use the REST API to a SH3DO server to connect, create users, create and save plans, and so on;
+\item Use the JavaScript API to create the components and customize the behavior;
+\item Use HTML and CSS to customize the page layout, tune the Look and Feel, and integrate the SH3DO components in your web site.
+\end{itemize}
+
+\section{How to customize the layout}
+
+The layout is fully defined in the \url{lib/sweethome3d.css} stylesheet. If you want to tune the default layout, you need to understand the structure of this file, then create your own CSS rules. You can place the new CSS in the header of your HTML file, or create a new .css file and link it after \url{lib/sweethome3d.css}.
+
+As shown in listing~\ref{lst:basic-example}, each SweetHome3D component has an id. So, the CSS rule will apply to these:
+
+\begin{lstlisting}[language=html]
+[...]
+<div id="home-pane">
+  <canvas id="home-3D-view" tabIndex="1"></canvas>
+  <div id="home-plan" tabIndex="2" ></div>
+  <div id="home-pane-toolbar"></div>
+  <div id="furniture-catalog"></div>
+</div>
+[...]
+\end{lstlisting}
+
+As an example, the following CSS will remove the 3D view (id: home-3D-view) from the page and make the plan view (id:home-plan)  full page:
+
+\begin{lstlisting}[language=c]
+#home-3D-view {
+  display: none
+}
+
+#home-plan {
+  height: calc(100% - 16px);
+}
+\end{lstlisting}
+
+\section{How to change the default colors}
+
+Similarly to the layout, color can be changed tuning the \url{lib/sweethome3d.css} stylesheet. Be aware that CSS rule can be overridden, especially by local declaration directly in the HTML style attribute of the elements. 
+
+For instance, in order to invert the colors of the plan view (black background and white foreground), you can change the styling of the plan view HTML element like this:
+
+\begin{lstlisting}[language=html]
+  <div id="home-plan" style="background-color: black; color: white"         
+          tabIndex="2" ></div>
+\end{lstlisting}
+
+You can also put it in a CSS file:
+
+\begin{lstlisting}[language=html]
+#home-plan {
+	background-color: black; 
+	color: white;
+}         
+\end{lstlisting}
+
+\section{How to change the default user preferences}
+
+You can access the user preferences with JavaScript. The entry point is the application variable accessible from the root scope (the HTML page).
+
+For example, you can force the 3D aerial view to be centered around the selection with the following JavaScript line to be added after the creation of the application object:
+
+\begin{lstlisting}[language=c++]
+	application.getUserPreferences()
+		.setAerialViewCenteredOnSelectionEnabled(true);
+\end{lstlisting}
+
+The full API for the user preferences is available at: \url{http://www.sweethome3d.com/javadoc/com/eteks/sweethome3d/model/UserPreferences.html}.
+
+\section{How to add a custom button to the toolbar}
+
+There are several ways to add a new button to the toolbar. A simple way to do it is through the following JavaScript function.
+
+\begin{lstlisting}[language=c++]
+function addButton(id, title, imageUrl, onclick) {
+    var toolbar = document.getElementById('home-pane-toolbar');
+    toolbar.insertAdjacentHTML('beforeend', "<span class='toolbar-button-group'><button title='"+title+"' class='toolbar-button toggle selected' id='"+id+"' style='background-image: url(&quot;"+imageUrl+"&quot;); background-position: center center; background-repeat: no-repeat;background-color:#fff'></button></span>");
+    document.getElementById(id).addEventListener('click', onclick);
+}
+\end{lstlisting}
+
+You can call this function once the home is created, in the "homeLoaded" handler of the application:
+
+\begin{lstlisting}[language=c++]
+[...]
+application.getHomeRecorder().readHome(homeName, 
+   {
+      homeLoaded: function(home) {
+        home.setName(homeName);
+        application.addHome(home);
+
+        addButton(
+        	'custom-button-id', 
+        	'my new button', 
+        	'http://demo.sh3d.online/lib/search.gif', 
+        	function() {
+	        	alert("hello from my new button");
+    	    });
+[...]
+\end{lstlisting}
+
+\chapter{API}
+
+\section{General-purpose REST API}
+
+\subsection{Endpoint \texttt{ping}}
+
+This endpoint may be used by the client to check the server availability.
+
+\begin{center}
+\begin{tabularx} {\textwidth} { | l | X | }
+
+\hline
+
+Path & \texttt{ping} \\
+
+\hline
+
+HTTP method & GET \\
+
+\hline
+
+Parameters & - \\
+
+\hline
+
+Result & status object (JSON) \\
+
+\hline
+
+\end{tabularx}
+\end{center}
+
+\subsection{Endpoint \texttt{getRetailer}}
+
+This endpoint gets the retailer information for the given retailer key. Keys are provided to you by CINCHEO. Please contact Renaud Pawlak to get your own key.
+
+\begin{center}
+\begin{tabularx} {\textwidth} { | l | X | }
+
+\hline
+
+Path & \texttt{getRetailer/retailerKey} \\
+
+\hline
+
+HTTP method & GET \\
+
+\hline
+
+Parameters & \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{retailerKey} (path parameter): the retailer key
+\end{itemize} \\
+
+\hline
+
+Result & A JSON object containin the following data: \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{domain}: the retailer's web site domain
+\item \texttt{email}: the retailer's contact email
+\item \texttt{key}: the retailer's key
+\item \texttt{enabled}: a flag telling if the retailer's account is activated
+\item \texttt{plan}: the name of the plan (DEMO | STARTER | BASIC | PROFESSIONAL | PREMIUM)
+\item \texttt{planExtensionCode1}: an optional integer encoding an extension for the retailer's plan
+\item \texttt{planExtensionCode2}: an optional integer encoding an extension for the retailer's plan
+\end{itemize} \\
+
+\hline
+
+\end{tabularx}
+\end{center}
+
+\subsection{Endpoint \texttt{getRetailerStats}}
+
+This endpoint gets the retailer statistics for the given retailer key.
+
+\begin{center}
+\begin{tabularx} {\textwidth} { | l | X | }
+
+\hline
+
+Path & \texttt{getRetailerStats/retailerKey} \\
+
+\hline
+
+HTTP method & GET \\
+
+\hline
+
+Parameters & \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{retailerKey} (path parameter): the retailer key
+\end{itemize} \\
+
+\hline
+
+Result & A JSON object containin the following data: \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{lastReadHome}: the retailer's web site domain
+\item \texttt{userCount}: the total number of users for this retailer
+\item \texttt{homeCount}: the total number of homes (plans) for this retailer
+\item \texttt{usedSpace}: the total space used by this retailer's homes (in bytes)
+\item \texttt{lastReadHome}: the date when the last readHome access occurred
+\item \texttt{readHomeCount}: the total count of readHome access since the beginning of the plan
+\item \texttt{dailyReadHomeCount}: the total count of readHome access since the beginning of the current day (or since the lastReadHome date if no accesses)
+\item \texttt{monthlyReadHomeCount}: the total count of readHome access since the beginning of the current month (or since the lastReadHome date if no accesses)
+\item \texttt{yearlyReadHomeCount}: the total count of readHome access since the beginning of the current year (or since the lastReadHome date if no accesses)
+\item \texttt{lastWriteHome}: the date when the last readHome access occurred
+\item \texttt{writeHomeCount}: the total count of writeHome access since the beginning of the plan
+\item \texttt{writeReadHomeCount}: the total count of writeHome access since the beginning of the current day (or since the lastWriteHome date if no accesses)
+\item \texttt{monthlyWriteHomeCount}: the total count of writeHome access since the beginning of the current month (or since the lastWriteHome date if no accesses)
+\item \texttt{yearlyWriteHomeCount}: the total count of writeHome access since the beginning of the current year (or since the lastWriteHome date if no accesses)
+\end{itemize} \\
+
+\hline
+
+\end{tabularx}
+\end{center}
+
+\section{User-management REST API}
+
+Retailers can register and manage users. Without users (or at least a default user) registered on the server, retailers cannot create new homes (plans).
+
+\subsection{Endpoint \texttt{registerUser}}
+
+This endpoint creates a new user for a given retailer on the server. Once created, a use will have a space on the server to create new homes (see createNewHome).
+
+\begin{center}
+\begin{tabularx} {\textwidth} { | l | X | }
+
+\hline
+
+Path & \texttt{registerUser/retailerKey/userId} \\
+
+\hline
+
+HTTP method & GET \\
+
+\hline
+
+Parameters & \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{retailerKey} (path parameter): the retailer key
+\item \texttt{userId} (path parameter): the new user id (must not exist yet) 
+\end{itemize} \\
+
+\hline
+
+Result & status object (JSON) \\
+
+\hline
+
+\end{tabularx}
+\end{center}
+
+\subsection{Endpoint \texttt{getUsers}}
+
+This endpoint returns all the user ids (list of strings) that have been registered for this retailer (see registerUser).
+
+\begin{center}
+\begin{tabularx} {\textwidth} { | l | X | }
+
+\hline
+
+Path & \texttt{getUsers/retailerKey} \\
+
+\hline
+
+HTTP method & GET \\
+
+\hline
+
+Parameters & \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{retailerKey} (path parameter): the retailer key
+\end{itemize} \\
+
+\hline
+
+Result & a list of user ids as JSON \\
+
+\hline
+
+\end{tabularx}
+\end{center}
+
+\subsection{Endpoint \texttt{deleteUser}}
+
+This endpoint creates a new user for a given retailer on the server. Once created, a user will have a space on the server to create new homes (see createNewHome and uploadHome).
+
+\begin{center}
+\begin{tabularx} {\textwidth} { | l | X | }
+
+\hline
+
+Path & \texttt{deleteUser/retailerKey/userId} \\
+
+\hline
+
+HTTP method & GET \\
+
+\hline
+
+Parameters & \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{retailerKey} (path parameter): the retailer key
+\item \texttt{userId} (path parameter): the new user id (must exist for the given retailer) 
+\end{itemize} \\
+
+\hline
+
+Result & status object (JSON) \\
+
+\hline
+
+\end{tabularx}
+\end{center}
+
+\section{Home-management REST API}
+
+Homes are SH3D files that are created for each user registered on the server. A home is a plan that can be edited (and saved if the plan allows it) and visualized in 3D.
+
+\subsection{Endpoint \texttt{createNewHome}}
+
+This endpoint creates a new (empty) home for the given user.
+
+\begin{center}
+\begin{tabularx} {\textwidth} { | l | X | }
+
+\hline
+
+Path & \texttt{createNewHome/retailerKey/userId/homeName} \\
+
+\hline
+
+HTTP method & GET \\
+
+\hline
+
+Parameters & \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{retailerKey} (path parameter): the retailer key
+\item \texttt{userId} (path parameter): the user id, belonging to the retailer, as provided to registerUser 
+\item \texttt{homeName} (path parameter): the home name (should not contain special characters or accents to avoid potential Locale issues) 
+\end{itemize} \\
+
+\hline
+
+Result & status object (JSON) \\
+
+\hline
+
+Errors & \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{IOException}: if home already exists of if a problem occurs while creating the new home file on the server
+\item \texttt{RecorderException}: if Sweet Home 3D recorder fails at creating a new empty home
+\end{itemize} \\
+
+\hline
+
+\end{tabularx}
+\end{center}
+
+\subsection{Endpoint \texttt{uploadHome}}
+
+This endpoint creates a new home for the given user by uploading an SH3D file.
+
+\begin{center}
+\begin{tabularx} {\textwidth} { | l | X | }
+
+\hline
+
+Path & \texttt{uploadHome/retailerKey/userId} \\
+
+\hline
+
+HTTP method & POST \\
+
+\hline
+
+Parameters & \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{retailerKey} (path parameter): the retailer key
+\item \texttt{userId} (path parameter): the user id, belonging to the retailer, as provided to registerUser 
+\item \texttt{homeName} (form parameter): the home name (should not contain special characters or accents to avoid potential Locale issues) 
+\item \texttt{file} (multi-part file form parameter): the home file as provided to the form file upload
+\end{itemize} \\
+
+\hline
+
+Result & status object (JSON) \\
+
+\hline
+
+Errors & \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{IOException}: if home already exists of if a problem occurs while creating the new home file on the server
+\item \texttt{RecorderException}: if Sweet Home 3D recorder fails at creating a new empty home
+\end{itemize} \\
+
+\hline
+
+\end{tabularx}
+\end{center}
+
+
+\subsection{Endpoint \texttt{getHomes}}
+
+This endpoint gets all the created homes (plans) for the given user.
+
+\begin{center}
+\begin{tabularx} {\textwidth} { | l | X | }
+
+\hline
+
+Path & \texttt{getHomes/retailerKey/userId} \\
+
+\hline
+
+HTTP method & GET \\
+
+\hline
+
+Parameters & \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{retailerKey} (path parameter): the retailer key
+\item \texttt{userId} (path parameter): the user id, belonging to the retailer, as provided to registerUser 
+\end{itemize} \\
+
+\hline
+
+Result & a list of home names (string) as JSON \\
+
+\hline
+
+\end{tabularx}
+\end{center}
+
+
+\subsection{Endpoint \texttt{readHome}}
+
+This endpoint reads the given home on the server and downloads it in SH3D file format. It is to be used by a Sweet Home 3D JavaScript client.
+
+This endpoint comes with a POST and a GET version.
+
+\begin{center}
+\begin{tabularx} {\textwidth} { | l | X | }
+
+\hline
+
+Path & \texttt{readHome/retailerKey/userId/home} \\
+
+\hline
+
+HTTP method & GET \\
+
+\hline
+
+Parameters & \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{retailerKey} (path parameter): the retailer key
+\item \texttt{userId} (path parameter): the user id, belonging to the retailer, as provided to registerUser 
+\item \texttt{home} (path parameter): the home name, as provided to \texttt{createNewHome}
+\end{itemize} \\
+
+\hline
+
+Result & a byte stream containing the home file in binary format \\
+
+\hline
+
+Errors & \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{IOException}: if home does not exist or if a system error occurs while reading the file
+\end{itemize} \\
+
+\hline
+
+\end{tabularx}
+\end{center}
+       
+\begin{center}
+\begin{tabularx} {\textwidth} { | l | X | }
+
+\hline
+
+Path & \texttt{writeHomeEdits/retailerKey/userId} \\
+
+\hline
+
+HTTP method & POST \\
+
+\hline
+
+Parameters & \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{retailerKey} (path parameter): the retailer key
+\item \texttt{userId} (path parameter): the user id, belonging to the retailer, as provided to registerUser 
+\item \texttt{homeName} (form/header parameter): the home name, as provided to \texttt{readHome}
+\item \texttt{edits} (form/header parameter): the list of edits to apply to the home
+\end{itemize} \\
+
+\hline
+
+Result & a result object containing the count of applied edits (JSON) \\
+
+\hline
+
+Errors & \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{Throwable}: if any of the parameter is wrong or if the edits are not consistent with the target home
+\end{itemize} \\
+
+\hline
+
+\end{tabularx}
+\end{center}
+     
+ \subsection{Endpoint \texttt{deleteHome}}
+
+This endpoint permanently deletes a home from the server.
+
+\begin{center}
+\begin{tabularx} {\textwidth} { | l | X | }
+
+\hline
+
+Path & \texttt{deleteHome/retailerKey/userId/home} \\
+
+\hline
+
+HTTP method & GET \\
+
+\hline
+
+Parameters & \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{retailerKey} (path parameter): the retailer key
+\item \texttt{userId} (path parameter): the user id, belonging to the retailer, as provided to registerUser 
+\item \texttt{home} (path parameter): the home name, as provided to \texttt{createNewHome}
+\end{itemize} \\
+
+\hline
+
+Result & a byte stream containing the home file in binary format \\
+
+\hline
+
+Errors & \begin{itemize}[leftmargin=*,noitemsep,topsep=0px]
+\item \texttt{IOException}: if home does not exist or if a system error occurs while reading the file
+\end{itemize} \\
+
+\hline
+
+\end{tabularx}
+\end{center}
+    
+     
+ \section{JavaScript API}
+
+Although there are minor differences and that some elements are not fully supported, the JavaScript API mainly conforms to the Java API of SweetHome3D. Please note that the model and controller packages are automatically generated from Java with the JSweet Java to JavaScript compiler.
+
+In order to navigate the API, go to \url{http://www.sweethome3d.com/javadoc/}. This API will give you a good starting point to access the application and the underlying home model, and dynamically interact with is in JavaScript (see the com.eteks.sweethome3d.controller and com.eteks.sweethome3d.model packages).
+
+Additionally, you can refer to the following APIs, which have been generated with jsdoc from the JavaScript source file of SweetHome3DJS. 
+
+% <BEGIN PANDOC>
+
+\hypertarget{classes}{%
+\subsection{Classes}\label{classes}}
+
+IncrementalHomeRecorder
+
+SweetHome3DJSApplication
+
+PlanComponent
+
+\hypertarget{incrementalhomerecorder}{%
+\subsection{IncrementalHomeRecorder}\label{incrementalhomerecorder}}
+
+\textbf{Kind}: global class\\
+\textbf{Author}: Renaud Pawlak\\
+\textbf{Author}: Emmanuel Puybaret
+
+\begin{itemize}
+\tightlist
+\item
+  \protect\hyperlink{IncrementalHomeRecorder}{IncrementalHomeRecorder}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \protect\hyperlink{new_IncrementalHomeRecorder_new}{new
+    IncrementalHomeRecorder(application, {[}configuration{]})}
+  \item
+    \emph{instance}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \protect\hyperlink{IncrementalHomeRecorder+getTrackedHomeProperties}{.getTrackedHomeProperties()}
+    \item
+      \protect\hyperlink{IncrementalHomeRecorder+configure}{.configure(configuration)}
+    \item
+      \protect\hyperlink{IncrementalHomeRecorder+readHome}{.readHome(homeName,
+      observer)}
+    \item
+      \protect\hyperlink{IncrementalHomeRecorder+addHome}{.addHome(home)}
+    \item
+      \protect\hyperlink{IncrementalHomeRecorder+removeHome}{.removeHome(home)}
+    \item
+      \protect\hyperlink{IncrementalHomeRecorder+sendUndoableEdits}{.sendUndoableEdits(home)}
+    \end{itemize}
+  \item
+    \emph{static}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \protect\hyperlink{IncrementalHomeRecorder.DEFAULT_TRACKED_HOME_PROPERTIES}{.DEFAULT\_TRACKED\_HOME\_PROPERTIES}
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{new-incrementalhomerecorderapplication-configuration}{%
+\subsubsection{new IncrementalHomeRecorder(application,
+{[}configuration{]})}\label{new-incrementalhomerecorderapplication-configuration}}
+
+A home recorder that is able to save the application homes incrementally
+by sending undoable edits to the SH3D server.
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+Param & Type & Description\tabularnewline
+\midrule
+\endhead
+application &
+\protect\hyperlink{SweetHome3DJSApplication}{SweetHome3DJSApplication}
+&\tabularnewline
+{[}configuration{]} & Object & the recorder configuration\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{incrementalhomerecorder.gettrackedhomeproperties}{%
+\subsubsection{incrementalHomeRecorder.getTrackedHomeProperties()}\label{incrementalhomerecorder.gettrackedhomeproperties}}
+
+Gets the home properties that are tracked and potentially written by
+this recorder.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{IncrementalHomeRecorder}{IncrementalHomeRecorder}\\
+
+\hypertarget{incrementalhomerecorder.configureconfiguration}{%
+\subsubsection{incrementalHomeRecorder.configure(configuration)}\label{incrementalhomerecorder.configureconfiguration}}
+
+Configures this incremental recorder's behavior.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{IncrementalHomeRecorder}{IncrementalHomeRecorder}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+Param & Type & Description\tabularnewline
+\midrule
+\endhead
+configuration & Object & an object containing configuration
+fields\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{incrementalhomerecorder.readhomehomename-observer}{%
+\subsubsection{incrementalHomeRecorder.readHome(homeName,
+observer)}\label{incrementalhomerecorder.readhomehomename-observer}}
+
+Reads a home with this recorder.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{IncrementalHomeRecorder}{IncrementalHomeRecorder}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+\begin{minipage}[b]{0.30\columnwidth}\raggedright
+Param\strut
+\end{minipage} & \begin{minipage}[b]{0.30\columnwidth}\raggedright
+Type\strut
+\end{minipage} & \begin{minipage}[b]{0.30\columnwidth}\raggedright
+Description\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.30\columnwidth}\raggedright
+homeName\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+string\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+the home name on the server or the URL of the home if readHomeURL
+service is missing\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.30\columnwidth}\raggedright
+observer\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Object\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+callbacks used to follow the reading of the home\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{incrementalhomerecorder.addhomehome}{%
+\subsubsection{incrementalHomeRecorder.addHome(home)}\label{incrementalhomerecorder.addhomehome}}
+
+Adds a home to be incrementally saved by this recorder.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{IncrementalHomeRecorder}{IncrementalHomeRecorder}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+home & Home\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{incrementalhomerecorder.removehomehome}{%
+\subsubsection{incrementalHomeRecorder.removeHome(home)}\label{incrementalhomerecorder.removehomehome}}
+
+Removes a home previously added with addHome.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{IncrementalHomeRecorder}{IncrementalHomeRecorder}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+home & Home\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{incrementalhomerecorder.sendundoableeditshome}{%
+\subsubsection{incrementalHomeRecorder.sendUndoableEdits(home)}\label{incrementalhomerecorder.sendundoableeditshome}}
+
+Sends to the server all the currently waiting edits for the given home.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{IncrementalHomeRecorder}{IncrementalHomeRecorder}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+home & Home\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{incrementalhomerecorder.default_tracked_home_properties}{%
+\subsubsection{IncrementalHomeRecorder.DEFAULT\_TRACKED\_HOME\_PROPERTIES}\label{incrementalhomerecorder.default_tracked_home_properties}}
+
+The home properties that are tracked by default by incremental
+recorders.
+
+\textbf{Kind}: static property of
+\protect\hyperlink{IncrementalHomeRecorder}{IncrementalHomeRecorder}\\
+
+\hypertarget{sweethome3djsapplication}{%
+\subsection{SweetHome3DJSApplication}\label{sweethome3djsapplication}}
+
+\textbf{Kind}: global class\\
+\textbf{Author}: Emmanuel Puybaret\\
+\textbf{Author}: Renaud Pawlak\\
+
+\hypertarget{new-sweethome3djsapplicationparams}{%
+\subsubsection{new
+SweetHome3DJSApplication({[}params{]})}\label{new-sweethome3djsapplicationparams}}
+
+Defines HomeApplication implementation for JavaScript.
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+\begin{minipage}[b]{0.30\columnwidth}\raggedright
+Param\strut
+\end{minipage} & \begin{minipage}[b]{0.30\columnwidth}\raggedright
+Type\strut
+\end{minipage} & \begin{minipage}[b]{0.30\columnwidth}\raggedright
+Description\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.30\columnwidth}\raggedright
+{[}params{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Object\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+the URLs of resources and services required on server (if undefined,
+will use local files for testing)\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent}{%
+\subsection{PlanComponent}\label{plancomponent}}
+
+\textbf{Kind}: global class\\
+\textbf{Author}: Emmanuel Puybaret\\
+\textbf{Author}: Renaud Pawlak
+
+\begin{itemize}
+\tightlist
+\item
+  \protect\hyperlink{PlanComponent}{PlanComponent}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \protect\hyperlink{new_PlanComponent_new}{new
+    PlanComponent(containerOrCanvasId, home, preferences,
+    {[}object3dFactory{]}, controller)}
+  \item
+    \emph{instance}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \protect\hyperlink{PlanComponent+getHTMLElement}{.getHTMLElement()}
+    \item
+      \protect\hyperlink{PlanComponent+getPreferredSize}{.getPreferredSize()}
+      ⇒ java.awt.Dimension
+    \item
+      \protect\hyperlink{PlanComponent+getPaintedItems}{.getPaintedItems()}
+      ⇒ Array.\textless Object\textgreater{}
+    \item
+      \protect\hyperlink{PlanComponent+getItemBounds}{.getItemBounds(g,
+      item)} ⇒ java.awt.geom.Rectangle2D
+    \item
+      \protect\hyperlink{PlanComponent+getTextBounds}{.getTextBounds(text,
+      style, x, y, angle)} ⇒ Array
+    \item
+      \protect\hyperlink{PlanComponent+getFont}{.getFont({[}defaultFont{]},
+      {[}textStyle{]})} ⇒ string
+    \item
+      \protect\hyperlink{PlanComponent+getFontMetrics}{.getFontMetrics(defaultFont,
+      textStyle)} ⇒ FontMetrics
+    \item
+      \protect\hyperlink{PlanComponent+setBackgroundPainted}{.setBackgroundPainted(backgroundPainted)}
+    \item
+      \protect\hyperlink{PlanComponent+isBackgroundPainted}{.isBackgroundPainted()}
+      ⇒ boolean
+    \item
+      \protect\hyperlink{PlanComponent+setSelectedItemsOutlinePainted}{.setSelectedItemsOutlinePainted(selectedItemsOutlinePainted)}
+    \item
+      \protect\hyperlink{PlanComponent+isSelectedItemsOutlinePainted}{.isSelectedItemsOutlinePainted()}
+      ⇒ boolean
+    \item
+      \protect\hyperlink{PlanComponent+repaint}{.repaint()}
+    \item
+      \protect\hyperlink{PlanComponent+getGraphics}{.getGraphics()} ⇒
+      Graphics2D
+    \item
+      \protect\hyperlink{PlanComponent+paintComponent}{.paintComponent(g)}
+    \item
+      \protect\hyperlink{PlanComponent+getPrintPreferredScale}{.getPrintPreferredScale(g,
+      pageFormat)} ⇒ number
+    \item
+      \protect\hyperlink{PlanComponent+createTransferData}{.createTransferData(dataType)}
+      ⇒ Object
+    \item
+      \protect\hyperlink{PlanComponent+getClipboardImage}{.getClipboardImage()}
+      ⇒ HTMLImageElement
+    \item
+      \protect\hyperlink{PlanComponent+isFormatTypeSupported}{.isFormatTypeSupported(formatType)}
+      ⇒ boolean
+    \item
+      \protect\hyperlink{PlanComponent+exportData}{.exportData(out,
+      formatType, settings)}
+    \item
+      \protect\hyperlink{PlanComponent+getForegroundColor}{.getForegroundColor(mode)}
+      ⇒ string
+    \item
+      \protect\hyperlink{PlanComponent+getBackgroundColor}{.getBackgroundColor(mode)}
+      ⇒ string
+    \item
+      \protect\hyperlink{PlanComponent+paintHomeItems}{.paintHomeItems(g,
+      planScale, backgroundColor, foregroundColor, paintMode)}
+    \item
+      \protect\hyperlink{PlanComponent+getSelectionColor}{.getSelectionColor()}
+      ⇒ string
+    \item
+      \protect\hyperlink{PlanComponent+getFurnitureOutlineColor}{.getFurnitureOutlineColor()}
+      ⇒ string
+    \item
+      \protect\hyperlink{PlanComponent+getIndicator}{.getIndicator(item,
+      indicatorType)} ⇒ Object
+    \item
+      \protect\hyperlink{PlanComponent+isViewableAtSelectedLevel}{.isViewableAtSelectedLevel(item)}
+      ⇒ boolean
+    \item
+      \protect\hyperlink{PlanComponent+setRectangleFeedback}{.setRectangleFeedback(x0,
+      y0, x1, y1)}
+    \item
+      \protect\hyperlink{PlanComponent+makeSelectionVisible}{.makeSelectionVisible()}
+    \item
+      \protect\hyperlink{PlanComponent+makePointVisible}{.makePointVisible(x,
+      y)}
+    \item
+      \protect\hyperlink{PlanComponent+moveView}{.moveView(dx, dy)}
+    \item
+      \protect\hyperlink{PlanComponent+getScale}{.getScale()} ⇒ number
+    \item
+      \protect\hyperlink{PlanComponent+setScale}{.setScale(scale)}
+    \item
+      \protect\hyperlink{PlanComponent+convertXPixelToModel}{.convertXPixelToModel(x)}
+      ⇒ number
+    \item
+      \protect\hyperlink{PlanComponent+convertYPixelToModel}{.convertYPixelToModel(y)}
+      ⇒ number
+    \item
+      \protect\hyperlink{PlanComponent+convertXModelToScreen}{.convertXModelToScreen(x)}
+      ⇒ number
+    \item
+      \protect\hyperlink{PlanComponent+convertYModelToScreen}{.convertYModelToScreen(y)}
+      ⇒ number
+    \item
+      \protect\hyperlink{PlanComponent+getPixelLength}{.getPixelLength()}
+      ⇒ number
+    \item
+      \protect\hyperlink{PlanComponent+setCursor}{.setCursor(cursorType)}
+    \item
+      \protect\hyperlink{PlanComponent+setToolTipFeedback}{.setToolTipFeedback(toolTipFeedback)}
+    \item
+      \protect\hyperlink{PlanComponent+setToolTipEditedProperties}{.setToolTipEditedProperties(toolTipEditedProperties,
+      toolTipPropertyValues, x, y)}
+    \item
+      \protect\hyperlink{PlanComponent+deleteToolTipFeedback}{.deleteToolTipFeedback()}
+    \item
+      \protect\hyperlink{PlanComponent+setResizeIndicatorVisible}{.setResizeIndicatorVisible(resizeIndicatorVisible)}
+    \item
+      \protect\hyperlink{PlanComponent+setAlignmentFeedback}{.setAlignmentFeedback(alignedObjectClass,
+      alignedObject, x, y, showPointFeedback)}
+    \item
+      \protect\hyperlink{PlanComponent+setAngleFeedback}{.setAngleFeedback(xCenter,
+      yCenter, x1, y1, x2, y2)}
+    \item
+      \protect\hyperlink{PlanComponent+setDraggedItemsFeedback}{.setDraggedItemsFeedback(draggedItems)}
+    \item
+      \protect\hyperlink{PlanComponent+setDimensionLinesFeedback}{.setDimensionLinesFeedback(dimensionLines)}
+    \item
+      \protect\hyperlink{PlanComponent+deleteFeedback}{.deleteFeedback()}
+    \item
+      \protect\hyperlink{PlanComponent+canImportDraggedItems}{.canImportDraggedItems(items,
+      x, y)} ⇒ boolean
+    \item
+      \protect\hyperlink{PlanComponent+getPieceOfFurnitureSizeInPlan}{.getPieceOfFurnitureSizeInPlan(piece)}
+      ⇒ Array
+    \item
+      \protect\hyperlink{PlanComponent+isFurnitureSizeInPlanSupported}{.isFurnitureSizeInPlanSupported()}
+      ⇒ boolean
+    \item
+      \protect\hyperlink{PlanComponent+getHorizontalRuler}{.getHorizontalRuler()}
+      ⇒ Object
+    \item
+      \protect\hyperlink{PlanComponent+getVerticalRuler}{.getVerticalRuler()}
+      ⇒ Object
+    \end{itemize}
+  \item
+    \emph{static}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \protect\hyperlink{PlanComponent.IndicatorType}{.IndicatorType}
+
+      \begin{itemize}
+      \tightlist
+      \item
+        \protect\hyperlink{new_PlanComponent.IndicatorType_new}{new
+        PlanComponent.IndicatorType()}
+      \item
+        \protect\hyperlink{PlanComponent.IndicatorType+name}{.name()} ⇒
+        string
+      \item
+        \protect\hyperlink{PlanComponent.IndicatorType+toString}{.toString()}
+        ⇒ string
+      \end{itemize}
+    \item
+      \protect\hyperlink{PlanComponent.PaintMode}{.PaintMode}
+    \item
+      \protect\hyperlink{PlanComponent.getDefaultSelectionColor}{.getDefaultSelectionColor(planComponent)}
+      ⇒ string
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{new-plancomponentcontainerorcanvasid-home-preferences-object3dfactory-controller}{%
+\subsubsection{new PlanComponent(containerOrCanvasId, home, preferences,
+{[}object3dFactory{]},
+controller)}\label{new-plancomponentcontainerorcanvasid-home-preferences-object3dfactory-controller}}
+
+Creates a new plan that displays home.
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+\begin{minipage}[b]{0.30\columnwidth}\raggedright
+Param\strut
+\end{minipage} & \begin{minipage}[b]{0.30\columnwidth}\raggedright
+Type\strut
+\end{minipage} & \begin{minipage}[b]{0.30\columnwidth}\raggedright
+Description\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.30\columnwidth}\raggedright
+containerOrCanvasId\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+string\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+the ID of a HTML DIV or CANVAS\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.30\columnwidth}\raggedright
+home\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Home\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+the home to display\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.30\columnwidth}\raggedright
+preferences\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+UserPreferences\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+user preferences to retrieve used unit, grid visibility\ldots{}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.30\columnwidth}\raggedright
+{[}object3dFactory{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Object\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+a factory able to create 3D objects from home furniture. The
+{[}Selectable, boolean)
+createObject3D{]}(Object3DFactory\#createObject3D(Home,) of this factory
+is expected to return an instance of \url{Object3DBranch} in current
+implementation.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.30\columnwidth}\raggedright
+controller\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+PlanController\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+the optional controller used to manage home items modification\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.gethtmlelement}{%
+\subsubsection{planComponent.getHTMLElement()}\label{plancomponent.gethtmlelement}}
+
+Returns the HTML element used to view this component at screen.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.getpreferredsize-java.awt.dimension}{%
+\subsubsection{planComponent.getPreferredSize() ⇒
+java.awt.Dimension}\label{plancomponent.getpreferredsize-java.awt.dimension}}
+
+Returns the preferred size of this component in actual screen pixels
+size.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.getpainteditems-array.object}{%
+\subsubsection{planComponent.getPaintedItems() ⇒
+Array.\textless Object\textgreater{}}\label{plancomponent.getpainteditems-array.object}}
+
+Returns the collection of walls, furniture, rooms and dimension lines of
+the home painted by this component wherever the level they belong to is
+selected or not.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.getitemboundsg-item-java.awt.geom.rectangle2d}{%
+\subsubsection{planComponent.getItemBounds(g, item) ⇒
+java.awt.geom.Rectangle2D}\label{plancomponent.getitemboundsg-item-java.awt.geom.rectangle2d}}
+
+Returns the bounds of the given item.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+g & Graphics2D\tabularnewline
+item & Object\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.gettextboundstext-style-x-y-angle-array}{%
+\subsubsection{planComponent.getTextBounds(text, style, x, y, angle) ⇒
+Array}\label{plancomponent.gettextboundstext-style-x-y-angle-array}}
+
+Returns the coordinates of the bounding rectangle of the text centered
+at the point (x,y).
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+text & string\tabularnewline
+style & TextStyle\tabularnewline
+x & number\tabularnewline
+y & number\tabularnewline
+angle & number\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.getfontdefaultfont-textstyle-string}{%
+\subsubsection{planComponent.getFont({[}defaultFont{]}, {[}textStyle{]})
+⇒ string}\label{plancomponent.getfontdefaultfont-textstyle-string}}
+
+Returns the HTML font matching a given text style.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+{[}defaultFont{]} & string\tabularnewline
+{[}textStyle{]} & TextStyle\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.getfontmetricsdefaultfont-textstyle-fontmetrics}{%
+\subsubsection{planComponent.getFontMetrics(defaultFont, textStyle) ⇒
+FontMetrics}\label{plancomponent.getfontmetricsdefaultfont-textstyle-fontmetrics}}
+
+Returns the font metrics matching a given text style.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+defaultFont & string\tabularnewline
+textStyle & TextStyle\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.setbackgroundpaintedbackgroundpainted}{%
+\subsubsection{planComponent.setBackgroundPainted(backgroundPainted)}\label{plancomponent.setbackgroundpaintedbackgroundpainted}}
+
+Sets whether plan's background should be painted or not. Background may
+include grid and an image.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+backgroundPainted & boolean\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.isbackgroundpainted-boolean}{%
+\subsubsection{planComponent.isBackgroundPainted() ⇒
+boolean}\label{plancomponent.isbackgroundpainted-boolean}}
+
+Returns true if plan's background should be painted.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.setselecteditemsoutlinepaintedselecteditemsoutlinepainted}{%
+\subsubsection{planComponent.setSelectedItemsOutlinePainted(selectedItemsOutlinePainted)}\label{plancomponent.setselecteditemsoutlinepaintedselecteditemsoutlinepainted}}
+
+Sets whether the outline of home selected items should be painted or
+not.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+selectedItemsOutlinePainted & boolean\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.isselecteditemsoutlinepainted-boolean}{%
+\subsubsection{planComponent.isSelectedItemsOutlinePainted() ⇒
+boolean}\label{plancomponent.isselecteditemsoutlinepainted-boolean}}
+
+Returns true if the outline of home selected items should be painted.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.repaint}{%
+\subsubsection{planComponent.repaint()}\label{plancomponent.repaint}}
+
+Repaints this component elements when possible.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.getgraphics-graphics2d}{%
+\subsubsection{planComponent.getGraphics() ⇒
+Graphics2D}\label{plancomponent.getgraphics-graphics2d}}
+
+Returns a Graphics2D object.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.paintcomponentg}{%
+\subsubsection{planComponent.paintComponent(g)}\label{plancomponent.paintcomponentg}}
+
+Paints this component.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+g & Graphics2D\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.getprintpreferredscaleg-pageformat-number}{%
+\subsubsection{planComponent.getPrintPreferredScale(g, pageFormat) ⇒
+number}\label{plancomponent.getprintpreferredscaleg-pageformat-number}}
+
+Returns the print preferred scale of the plan drawn in this component to
+make it fill pageFormat imageable size.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+g & Graphics2D\tabularnewline
+pageFormat & java.awt.print.PageFormat\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.createtransferdatadatatype-object}{%
+\subsubsection{planComponent.createTransferData(dataType) ⇒
+Object}\label{plancomponent.createtransferdatadatatype-object}}
+
+Returns an image of selected items in plan for transfer purpose.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+dataType & TransferableView.DataType\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.getclipboardimage-htmlimageelement}{%
+\subsubsection{planComponent.getClipboardImage() ⇒
+HTMLImageElement}\label{plancomponent.getclipboardimage-htmlimageelement}}
+
+Returns an image of the selected items displayed by this component
+(camera excepted) with no outline at scale 1/1 (1 pixel = 1cm).
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.isformattypesupportedformattype-boolean}{%
+\subsubsection{planComponent.isFormatTypeSupported(formatType) ⇒
+boolean}\label{plancomponent.isformattypesupportedformattype-boolean}}
+
+Returns true if the given format is SVG.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+formatType & ExportableView.FormatType\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.exportdataout-formattype-settings}{%
+\subsubsection{planComponent.exportData(out, formatType,
+settings)}\label{plancomponent.exportdataout-formattype-settings}}
+
+Writes this plan in the given output stream at SVG (Scalable Vector
+Graphics) format if this is the requested format.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+out & java.io.OutputStream\tabularnewline
+formatType & ExportableView.FormatType\tabularnewline
+settings & Object\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.getforegroundcolormode-string}{%
+\subsubsection{planComponent.getForegroundColor(mode) ⇒
+string}\label{plancomponent.getforegroundcolormode-string}}
+
+Returns the foreground color used to draw content.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+mode &
+\protect\hyperlink{PlanComponent.PaintMode}{PaintMode}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.getbackgroundcolormode-string}{%
+\subsubsection{planComponent.getBackgroundColor(mode) ⇒
+string}\label{plancomponent.getbackgroundcolormode-string}}
+
+Returns the background color used to draw content.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+mode &
+\protect\hyperlink{PlanComponent.PaintMode}{PaintMode}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.painthomeitemsg-planscale-backgroundcolor-foregroundcolor-paintmode}{%
+\subsubsection{planComponent.paintHomeItems(g, planScale,
+backgroundColor, foregroundColor,
+paintMode)}\label{plancomponent.painthomeitemsg-planscale-backgroundcolor-foregroundcolor-paintmode}}
+
+Paints home items at the given scale, and with background and foreground
+colors. Outline around selected items will be painted only under PAINT
+mode.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+g & Graphics2D\tabularnewline
+planScale & number\tabularnewline
+backgroundColor & string\tabularnewline
+foregroundColor & string\tabularnewline
+paintMode &
+\protect\hyperlink{PlanComponent.PaintMode}{PaintMode}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.getselectioncolor-string}{%
+\subsubsection{planComponent.getSelectionColor() ⇒
+string}\label{plancomponent.getselectioncolor-string}}
+
+Returns the color used to draw selection outlines.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.getfurnitureoutlinecolor-string}{%
+\subsubsection{planComponent.getFurnitureOutlineColor() ⇒
+string}\label{plancomponent.getfurnitureoutlinecolor-string}}
+
+Returns the color used to draw furniture outline of the shape where a
+user can click to select a piece of furniture.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.getindicatoritem-indicatortype-object}{%
+\subsubsection{planComponent.getIndicator(item, indicatorType) ⇒
+Object}\label{plancomponent.getindicatoritem-indicatortype-object}}
+
+Returns the shape of the given indicator type.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+item & Object\tabularnewline
+indicatorType &
+\protect\hyperlink{PlanComponent.IndicatorType}{IndicatorType}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.isviewableatselectedlevelitem-boolean}{%
+\subsubsection{planComponent.isViewableAtSelectedLevel(item) ⇒
+boolean}\label{plancomponent.isviewableatselectedlevelitem-boolean}}
+
+Returns true if the given item can be viewed in the plan at the selected
+level.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+item & Object\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.setrectanglefeedbackx0-y0-x1-y1}{%
+\subsubsection{planComponent.setRectangleFeedback(x0, y0, x1,
+y1)}\label{plancomponent.setrectanglefeedbackx0-y0-x1-y1}}
+
+Sets rectangle selection feedback coordinates.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+x0 & number\tabularnewline
+y0 & number\tabularnewline
+x1 & number\tabularnewline
+y1 & number\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.makeselectionvisible}{%
+\subsubsection{planComponent.makeSelectionVisible()}\label{plancomponent.makeselectionvisible}}
+
+Ensures selected items are visible at screen and moves scroll bars if
+needed.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.makepointvisiblex-y}{%
+\subsubsection{planComponent.makePointVisible(x,
+y)}\label{plancomponent.makepointvisiblex-y}}
+
+Ensures the point at (x, y) is visible, moving scroll bars if needed.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+x & number\tabularnewline
+y & number\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.moveviewdx-dy}{%
+\subsubsection{planComponent.moveView(dx,
+dy)}\label{plancomponent.moveviewdx-dy}}
+
+Moves the view from (dx, dy) unit in the scrolling zone it belongs to.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+dx & number\tabularnewline
+dy & number\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.getscale-number}{%
+\subsubsection{planComponent.getScale() ⇒
+number}\label{plancomponent.getscale-number}}
+
+Returns the scale used to display the plan.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.setscalescale}{%
+\subsubsection{planComponent.setScale(scale)}\label{plancomponent.setscalescale}}
+
+Sets the scale used to display the plan. If this component is displayed
+in a scrolled panel the view position is updated to ensure the center's
+view will remain the same after the scale change.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+scale & number\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.convertxpixeltomodelx-number}{%
+\subsubsection{planComponent.convertXPixelToModel(x) ⇒
+number}\label{plancomponent.convertxpixeltomodelx-number}}
+
+Returns x converted in model coordinates space.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+x & number\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.convertypixeltomodely-number}{%
+\subsubsection{planComponent.convertYPixelToModel(y) ⇒
+number}\label{plancomponent.convertypixeltomodely-number}}
+
+Returns y converted in model coordinates space.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+y & number\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.convertxmodeltoscreenx-number}{%
+\subsubsection{planComponent.convertXModelToScreen(x) ⇒
+number}\label{plancomponent.convertxmodeltoscreenx-number}}
+
+Returns x converted in screen coordinates space.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+x & number\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.convertymodeltoscreeny-number}{%
+\subsubsection{planComponent.convertYModelToScreen(y) ⇒
+number}\label{plancomponent.convertymodeltoscreeny-number}}
+
+Returns y converted in screen coordinates space.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+y & number\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.getpixellength-number}{%
+\subsubsection{planComponent.getPixelLength() ⇒
+number}\label{plancomponent.getpixellength-number}}
+
+Returns the length in centimeters of a pixel with the current scale.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.setcursorcursortype}{%
+\subsubsection{planComponent.setCursor(cursorType)}\label{plancomponent.setcursorcursortype}}
+
+Sets the cursor of this component.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+cursorType & PlanView.CursorType \textbar{} string\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.settooltipfeedbacktooltipfeedback}{%
+\subsubsection{planComponent.setToolTipFeedback(toolTipFeedback)}\label{plancomponent.settooltipfeedbacktooltipfeedback}}
+
+Sets tool tip text displayed as feedback.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+\begin{minipage}[b]{0.30\columnwidth}\raggedright
+Param\strut
+\end{minipage} & \begin{minipage}[b]{0.30\columnwidth}\raggedright
+Type\strut
+\end{minipage} & \begin{minipage}[b]{0.30\columnwidth}\raggedright
+Description\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.30\columnwidth}\raggedright
+toolTipFeedback\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+string\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+the text displayed in the tool tip or null to make tool tip
+disappear.\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.settooltipeditedpropertiestooltipeditedproperties-tooltippropertyvalues-x-y}{%
+\subsubsection{planComponent.setToolTipEditedProperties(toolTipEditedProperties,
+toolTipPropertyValues, x,
+y)}\label{plancomponent.settooltipeditedpropertiestooltipeditedproperties-tooltippropertyvalues-x-y}}
+
+Set tool tip edition.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+toolTipEditedProperties & Array\tabularnewline
+toolTipPropertyValues & Array\tabularnewline
+x & number\tabularnewline
+y & number\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.deletetooltipfeedback}{%
+\subsubsection{planComponent.deleteToolTipFeedback()}\label{plancomponent.deletetooltipfeedback}}
+
+Deletes tool tip text from screen.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.setresizeindicatorvisibleresizeindicatorvisible}{%
+\subsubsection{planComponent.setResizeIndicatorVisible(resizeIndicatorVisible)}\label{plancomponent.setresizeindicatorvisibleresizeindicatorvisible}}
+
+Sets whether the resize indicator of selected wall or piece of furniture
+should be visible or not.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+resizeIndicatorVisible & boolean\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.setalignmentfeedbackalignedobjectclass-alignedobject-x-y-showpointfeedback}{%
+\subsubsection{planComponent.setAlignmentFeedback(alignedObjectClass,
+alignedObject, x, y,
+showPointFeedback)}\label{plancomponent.setalignmentfeedbackalignedobjectclass-alignedobject-x-y-showpointfeedback}}
+
+Sets the location point for alignment feedback.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+alignedObjectClass & Object\tabularnewline
+alignedObject & Object\tabularnewline
+x & number\tabularnewline
+y & number\tabularnewline
+showPointFeedback & boolean\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.setanglefeedbackxcenter-ycenter-x1-y1-x2-y2}{%
+\subsubsection{planComponent.setAngleFeedback(xCenter, yCenter, x1, y1,
+x2,
+y2)}\label{plancomponent.setanglefeedbackxcenter-ycenter-x1-y1-x2-y2}}
+
+Sets the points used to draw an angle in plan view.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+xCenter & number\tabularnewline
+yCenter & number\tabularnewline
+x1 & number\tabularnewline
+y1 & number\tabularnewline
+x2 & number\tabularnewline
+y2 & number\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.setdraggeditemsfeedbackdraggeditems}{%
+\subsubsection{planComponent.setDraggedItemsFeedback(draggedItems)}\label{plancomponent.setdraggeditemsfeedbackdraggeditems}}
+
+Sets the feedback of dragged items drawn during a drag and drop
+operation, initiated from outside of plan view.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+draggedItems & Array.\textless Object\textgreater{}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.setdimensionlinesfeedbackdimensionlines}{%
+\subsubsection{planComponent.setDimensionLinesFeedback(dimensionLines)}\label{plancomponent.setdimensionlinesfeedbackdimensionlines}}
+
+Sets the given dimension lines to be drawn as feedback.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+dimensionLines &
+Array.\textless DimensionLine\textgreater{}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.deletefeedback}{%
+\subsubsection{planComponent.deleteFeedback()}\label{plancomponent.deletefeedback}}
+
+Deletes all elements shown as feedback.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.canimportdraggeditemsitems-x-y-boolean}{%
+\subsubsection{planComponent.canImportDraggedItems(items, x, y) ⇒
+boolean}\label{plancomponent.canimportdraggeditemsitems-x-y-boolean}}
+
+Returns true.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+items & Array.\textless Object\textgreater{}\tabularnewline
+x & number\tabularnewline
+y & number\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.getpieceoffurnituresizeinplanpiece-array}{%
+\subsubsection{planComponent.getPieceOfFurnitureSizeInPlan(piece) ⇒
+Array}\label{plancomponent.getpieceoffurnituresizeinplanpiece-array}}
+
+Returns the size of the given piece of furniture in the horizontal plan,
+or null if the view isn't able to compute such a value.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+piece & HomePieceOfFurniture\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.isfurnituresizeinplansupported-boolean}{%
+\subsubsection{planComponent.isFurnitureSizeInPlanSupported() ⇒
+boolean}\label{plancomponent.isfurnituresizeinplansupported-boolean}}
+
+Returns true if this component is able to compute the size of
+horizontally rotated furniture.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.gethorizontalruler-object}{%
+\subsubsection{planComponent.getHorizontalRuler() ⇒
+Object}\label{plancomponent.gethorizontalruler-object}}
+
+Returns the component used as an horizontal ruler for this plan.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.getverticalruler-object}{%
+\subsubsection{planComponent.getVerticalRuler() ⇒
+Object}\label{plancomponent.getverticalruler-object}}
+
+Returns the component used as a vertical ruler for this plan.
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+
+\hypertarget{plancomponent.indicatortype}{%
+\subsubsection{PlanComponent.IndicatorType}\label{plancomponent.indicatortype}}
+
+\textbf{Kind}: static class of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{itemize}
+\tightlist
+\item
+  \protect\hyperlink{PlanComponent.IndicatorType}{.IndicatorType}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \protect\hyperlink{new_PlanComponent.IndicatorType_new}{new
+    PlanComponent.IndicatorType()}
+  \item
+    \protect\hyperlink{PlanComponent.IndicatorType+name}{.name()} ⇒
+    string
+  \item
+    \protect\hyperlink{PlanComponent.IndicatorType+toString}{.toString()}
+    string
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{new-plancomponent.indicatortype}{%
+\paragraph{new
+PlanComponent.IndicatorType()}\label{new-plancomponent.indicatortype}}
+
+Indicator types that may be displayed on selected items.
+
+\hypertarget{indicatortype.name-string}{%
+\paragraph{indicatorType.name() ⇒
+string}\label{indicatortype.name-string}}
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent.IndicatorType}{IndicatorType}\\
+
+\hypertarget{indicatortype.tostring-string}{%
+\paragraph{indicatorType.toString() ⇒
+string}\label{indicatortype.tostring-string}}
+
+\textbf{Kind}: instance method of
+\protect\hyperlink{PlanComponent.IndicatorType}{IndicatorType}\\
+
+\hypertarget{plancomponent.paintmode}{%
+\subsubsection{PlanComponent.PaintMode}\label{plancomponent.paintmode}}
+
+The circumstances under which the home items displayed by this component
+will be painted.
+
+\textbf{Kind}: static enum of
+\protect\hyperlink{PlanComponent}{PlanComponent}\\
+\textbf{Properties}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Name & Type\tabularnewline
+\midrule
+\endhead
+PAINT &
+\protect\hyperlink{PlanComponent.PaintMode}{PaintMode}\tabularnewline
+PRINT &
+\protect\hyperlink{PlanComponent.PaintMode}{PaintMode}\tabularnewline
+CLIPBOARD &
+\protect\hyperlink{PlanComponent.PaintMode}{PaintMode}\tabularnewline
+EXPORT &
+\protect\hyperlink{PlanComponent.PaintMode}{PaintMode}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{plancomponent.getdefaultselectioncolorplancomponent-string}{%
+\subsubsection{PlanComponent.getDefaultSelectionColor(planComponent) 
+string}\label{plancomponent.getdefaultselectioncolorplancomponent-string}}
+
+Returns the default color used to draw selection outlines. Note that the
+default selection color may be forced using CSS by setting
+backgroundColor with the ::selection selector. In case the browser does
+not support the ::selection selector, one can force the selectio color
+in JavaScript by setting PlanComponent.DEFAULT\_SELECTION\_COLOR.
+
+\textbf{Kind}: static method of
+\protect\hyperlink{PlanComponent}{PlanComponent}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Param & Type\tabularnewline
+\midrule
+\endhead
+planComponent &
+\protect\hyperlink{PlanComponent}{PlanComponent}\tabularnewline
+\bottomrule
+\end{longtable}
+
+
+        
+\end{document}

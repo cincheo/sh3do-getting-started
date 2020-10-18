@@ -1,0 +1,121 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="minimal-ui, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+<meta name="format-detection" content="telephone=no">
+<meta name="msapplication-tap-highlight" content="no">
+<title>SweetHome3DJS Test</title>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/big.min.js"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/gl-matrix-min.js"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/jszip.min.js"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/jsXmlSaxParser.min.js"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/core.min.js"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/geom.min.js"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/stroke.min.js"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/swingundo.min.js"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/batik-svgpathparser.min.js"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/triangulator.min.js"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/graphics2d.min.js"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/sweethome3d.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://prod.sh3d.online/css/sweethome3d.css">
+<style type="text/css">
+
+#home-3D-view {
+  display: none;
+}
+
+#home-plan {
+  top: 32px;
+  height: calc(100% - 32px);
+  width: calc(100%);
+}
+
+#toolbar-button-CREATE_WALLS, #toolbar-button-VIEW_FROM_OBSERVER, #toolbar-button-VIEW_FROM_TOP,
+#toolbar-button-CREATE_ROOMS, #toolbar-button-ADD_LEVEL, #toolbar-button-ADD_LEVEL_AT_SAME_ELEVATION,
+#toolbar-button-DELETE_LEVEL {
+  display: none;
+}
+
+#level-selector {
+  position: absolute;
+  z-index: 10;
+}
+
+</style>
+</head>
+<body>
+
+<div id="home-pane">
+
+  <canvas id="home-3D-view" style="background-color: #CCCCCC;" 
+          tabIndex="1"></canvas>
+
+  <div id="home-plan" style="background-color: #FFFFFF; color: #000000"         
+          tabIndex="2" ></div>
+
+  <div id="home-pane-toolbar"></div>
+
+  <div id="furniture-catalog"></div>
+
+</div>
+
+<script type="text/javascript">
+var homeName = "SweetHome3DExample13-AlpsHotel";
+var urlBase = "https://prod.sh3d.online/";
+var application = new SweetHome3DJSApplication(
+    {readHomeURL:       urlBase + "api/readHome/wwwsh3do/default/%s",
+     //writeHomeEditsURL: urlBase + "api/writeHomeEdits/12345/default?home=%s",
+     //closeHomeURL:      urlBase + "closeHome.jsp?home=%s",
+     //pingURL:           urlBase + "api/ping",
+     furnitureCatalogURLs: [urlBase + "lib/resources/DefaultFurnitureCatalog.json"],
+     furnitureResourcesURLBase: urlBase,
+     autoWriteDelay:    1000,
+     autoWriteTrackedStateChange: true,
+     writingObserver:   {
+         writeStarted: function(update) {
+           console.info("Update started", update);
+         },
+         writeSucceeded: function(update) {
+           console.info("Update succeeded", update);
+         },
+         writeFailed: function(update, errorStatus, errorText) {
+           console.info("Update failed", update);
+         },
+         connectionFound: function() {
+           console.info("Back to online mode");
+         },
+         connectionLost: function(errorStatus, errorText) {
+           console.info("Lost server connection - going offline");
+         }
+       }
+    });
+
+// Set a few settings
+application.getUserPreferences().setNewRoomFloorColor(0xFF9999A0);
+application.getUserPreferences().setAerialViewCenteredOnSelectionEnabled(true);
+
+// Read and display test file 
+application.getHomeRecorder().readHome(homeName, 
+    {
+      homeLoaded: function(home) {
+        home.setName(homeName);
+        application.addHome(home);
+        
+        // TODO Should be performed in HomeController.close
+        window.addEventListener("unload", function() {
+            application.deleteHome(home);
+          });
+      },
+      homeError: function(err) {
+        console.error(err);
+      },
+      progression: function(part, info, percentage) {
+      }
+    });
+
+</script>
+
+</body>
+</html>
