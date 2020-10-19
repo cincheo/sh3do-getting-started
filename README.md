@@ -2,13 +2,13 @@
 
 This git repository gathers the documentation and resources to get started with embeding SH3DO into your own Web Site.
 
-To know more about SH3DO and see live demos, please visit [https://www.sweethome3d.online](the official Web Site).
+To know more about SH3DO and see live demos, please visit [the official Web Site](https://www.sweethome3d.online).
 
 ## Purpose
 
 The purpose of SH3DO is to provide an easy-to-install and easy-to-use SaaS for 3D-powered plan edition, floor planning, and so on. SH3DO provides a REST API, so that it is easy to use it independently from the programming language.
 
-SH3DO comes with a free starter plan to enable plan editing and 3D visualization in your web site. Please visit [https://wwww.sweethome3d.online]. As explained below, you can also try out embeding locally for development purpose.
+SH3DO comes with a free starter plan to enable plan editing and 3D visualization in your web site. Please visit https://wwww.sweethome3d.online. As explained below, you can also try out embeding locally for development purpose.
 
 ## Getting Started
 
@@ -33,14 +33,14 @@ You can also try out the other demos in the demos directory (also available thro
 
 ## Documentation
 
-Online documentation is available [docs/sh3d.online.md](here).
+Online documentation is available [here](docs/sh3d.online.md).
 
-Browse the [docs] directory for more details.
+Browse the [docs](docs) directory for more details.
 
 ## History and Licensing Note
 
 SH3DO is built on the top of SweetHome3D and SweetHome3DJS Open Source projects, which are available on SourceForge. However, SH3DO is *not* Open Source. 
 
-SH3DO is born from a collaboration between Renaud Pawlak (CINCHEO) and Emmanuel Puybaret (eTeks). Renaud Pawlak, creator and owner of [JSweet.org](wwww.jsweet.org), helped Emmanuel Puybaret to translate the Java version of Sweet Home 3D to JavaScript (partly thanks to the JSweet tranpiler). The result of this work is fully Open Source and is available in the SweetHome3DJS project (see www.sweethome3d.com for more details and access the source code on sourceforge.net).
+SH3DO is born from a collaboration between Renaud Pawlak (CINCHEO) and Emmanuel Puybaret (eTeks). Renaud Pawlak, creator and owner of [JSweet.org](http://wwww.jsweet.org), helped Emmanuel Puybaret to translate the Java version of Sweet Home 3D to JavaScript (partly thanks to the JSweet tranpiler). The result of this work is fully Open Source and is available in the SweetHome3DJS project (see www.sweethome3d.com for more details and access the source code on sourceforge.net).
 
 Thanks to an excluse partnership between CINCHEO and eTeks, SH3DO leverages SweetHome3D and SweetHome3DJS to make it SaaS and make it available to anyone with minimal development efforts.
