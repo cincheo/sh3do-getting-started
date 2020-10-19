@@ -2,8 +2,6 @@
 
 This git repository gathers the documentation and resources to get started with embeding SH3DO into your own Web Site.
 
-To know more about SH3DO and see live demos, please visit [the official Web Site](https://www.sweethome3d.online).
-
 ## Purpose
 
 The purpose of SH3DO is to provide an easy-to-install and easy-to-use SaaS for 3D-powered plan edition, floor planning, and so on. SH3DO provides a REST API, so that it is easy to use it independently from the programming language.
