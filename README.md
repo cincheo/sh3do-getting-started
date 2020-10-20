@@ -31,7 +31,7 @@ You can also try out the other demos in the demos directory (also available thro
 
 ## Documentation
 
-Online documentation is available [here](docs/sh3d.online.md).
+Online documentation is available [here](docs/sh3d.online.md) ([PDF version](docs/sh3d.online.pdf)).
 
 Browse the [docs](docs) directory for more details.
 
