@@ -1,12 +1,12 @@
 # Sweet Home 3D Online (SH3DO) - Getting Started
 
-This git repository gathers the documentation and resources to get started with embeding [SH3DO](https://wwww.sweethome3d.online) into your own Web Site.
+This git repository gathers the documentation and resources to get started with embeding [SH3DO](https://www.sweethome3d.online) into your own Web Site.
 
 ## Purpose
 
 The purpose of SH3DO is to provide an easy-to-install and easy-to-use SaaS for 3D-powered plan edition, floor planning, and so on. SH3DO provides a REST API, so that it is easy to use it independently from the programming language.
 
-SH3DO comes with a free 'starter' mode to enable plan editing and 3D visualization in your web site. Please visit https://wwww.sweethome3d.online. As explained below, you can also try out embeding locally for development purpose.
+SH3DO comes with a free 'starter' mode to enable plan editing and 3D visualization in your web site. Please visit https://www.sweethome3d.online. As explained below, you can also try out embeding locally for development purpose.
 
 ## Getting Started
 
@@ -21,13 +21,13 @@ You can try out the demo service, just by using the given demos provided in the 
 
 You can also try out the other demos in the demos directory (also available through https://www.sweethome3d.online). Here is the list of all available demos.
 
-- demos/demo0.html: opens a default simple plan, demonstrating various capabilities of SH3DO to edit and visualize (3D) plans.
-- demos/demo1.html: opens a full editor for a home.
-- demos/demo2.html: opens a 3D real-time interactive showroom visit.
-- demos/demo3.html: opens a 3D real-time museum-like interactive visit.
-- demos/demo4.html: opens a 2D floor planing map of a hotel (located in the French Alps).
-- demos/demo5.html: opens a 2D/3D outdoor landscaping editor.
-- demos/demo§.html: opens a empty plan editor with the ability to download the images of the plans.
+- [demos/demo0.html](demos/demo0.html): opens a default simple plan, demonstrating various capabilities of SH3DO to edit and visualize (3D) plans.
+- [demos/demo1.html](demos/demo1.html): opens a full editor for a home.
+- [demos/demo2.html](demos/demo2.html): opens a 3D real-time interactive showroom visit.
+- [demos/demo3.html](demos/demo3.html): opens a 3D real-time museum-like interactive visit.
+- [demos/demo4.html](demos/demo4.html): opens a 2D floor planing map of a hotel (located in the French Alps).
+- [demos/demo5.html](demos/demo5.html): opens a 2D/3D outdoor landscaping editor.
+- [demos/demo6.html](demos/demo6.html): opens a empty plan editor with the ability to download the images of the plans.
 
 ## Documentation
 
