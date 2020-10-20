@@ -1,28 +1,36 @@
  Copyright (C) 2020, CINCHEO (TM) <renaud.pawlak@gmail.com>
  All rights reserved.
 
-eTeks, editor of SweetHome3D and SweetHome3DJS, has granted CINCHEO the right to sell SaaS licences of 
-SweetHome3D and SweetHome3J as the SweetHome3D Online (SH3DO) product.
+eTeks, editor of SweetHome3D and SweetHome3DJS, has granted CINCHEO the 
+right to sell SaaS licences of SweetHome3D and SweetHome3J as the 
+SweetHome3D Online (SH3DO) product.
 
-As a RETAILER (webmaster), having access to a RETAILER API Key for your domain name will allow you to embed 
-SweetHome3D Online in your web site, as long as you conform to the terms and conditions of the LICENSE, which 
-are summarized hereafter.
+As a RETAILER (webmaster), having access to a RETAILER API Key for your 
+domain name will allow you to embed SweetHome3D Online in your web site, as 
+long as you conform to the terms and conditions of the LICENSE, which are 
+summarized hereafter.
 
-An SH3DO LICENSE is a contract between CINCHEO and a RETAILER, i.e. an indivual or a company wanting to embed 
-SH3DO within a web site attached to a given DOMAIN.
+An SH3DO LICENSE is a contract between CINCHEO and a RETAILER, i.e. an 
+indivual or a company wanting to embed SH3DO within a web site attached to 
+a given DOMAIN.
 
 The RETAILER agrees to the following terms and conditions.
 
-- The RETAILER agrees to a given plan knowing the limitations (available features and quotas).
+- The RETAILER agrees to a given plan knowing the limitations (available 
+  features and quotas).
 
-- No sub-licensing of the SH3DO license is allowed. Generally speaking, CINCHEO and eTeks will make sure that 
-  the RETAILER does not intend to compete with CINCHEO and eTeks businesses before granting or renewing a LICENSE.
+- No sub-licensing of the SH3DO license is allowed. Generally speaking, 
+  CINCHEO and eTeks will make sure that the RETAILER does not intend to 
+  compete with CINCHEO and eTeks businesses before granting or renewing a 
+  LICENSE.
 
-- White branding is allowed, but mention and link to be available on the RETAILER web site (should be visible 
-  next the SH3DO components for the free STARTER plan).
+- White branding is allowed, but mention and link to be available on the 
+  RETAILER web site (should be visible next the SH3DO components for the free 
+  STARTER plan).
 
-- The use of SH3DO remains for web sites only. No apps embedding SH3DO directly or indirectly through a website can 
-  be sold on an app store of any kind. Please contact us to discuss such business models.
+- The use of SH3DO remains for web sites only. No apps embedding SH3DO 
+  directly or indirectly through a website can be sold on an app store of any 
+  kind. Please contact us to discuss such business models.
 
 - Utilization fees must be paid upfront every year or every month.
 
