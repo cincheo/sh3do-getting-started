@@ -1,6 +1,8 @@
-# Sweet Home 3D Online (SH3DO) - Getting Started
+# Sweet Home 3D Online (SH3DO<sup>beta</sup>) - Getting Started
 
 This git repository gathers the documentation and resources to get started with embeding [SH3DO](https://www.sweethome3d.online) into your own Web Site.
+
+> _NOTE:_ The current version is still beta an may require small adjustments and changes in the future. All will be done to keep the initial API intact and unlikely breaking changes will be carefuly notified to prod users by email.
 
 ## Purpose
 
@@ -28,6 +30,14 @@ You can also try out the other demos in the demos directory (also available thro
 - [demos/demo4.html](demos/demo4.html): opens a 2D floor planing map of a hotel (located in the French Alps).
 - [demos/demo5.html](demos/demo5.html): opens a 2D/3D outdoor landscaping editor.
 - [demos/demo6.html](demos/demo6.html): opens a empty plan editor with the ability to download the images of the plans.
+
+## Moving to prod
+
+Convinced with the demos? Now you can embed SH3DO into your actual production website. Please visit [SH3DO](https://www.sweethome3d.online) to carefully select a plan that fits your need and contact me to get the corresponding API key. 
+
+Not sure yet how it works or what it can do? Read more in the documentation section below and contact me @[SH3DO](https://www.sweethome3d.online) if you have specific questions.
+
+Not sure yet if it can work for your use case? Take into account that CINCHEO also provides development services to customize SH3DO to any business requirements. Please don't hesitate to contact me @[SH3DO](https://www.sweethome3d.online) in order to discuss it.
 
 ## Documentation
 
