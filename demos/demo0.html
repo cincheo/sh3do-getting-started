@@ -6,27 +6,44 @@
 <meta name="viewport" content="minimal-ui, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
 <meta name="format-detection" content="telephone=no">
 <meta name="msapplication-tap-highlight" content="no">
-<title>SweetHome3DJS Test</title>
-<script type="text/javascript" src="/deploy/lib/big.min.js"></script>
-<script type="text/javascript" src="/deploy/lib/gl-matrix-min.js"></script>
-<script type="text/javascript" src="/deploy/lib/jszip.min.js"></script>
-<script type="text/javascript" src="/deploy/lib/jsXmlSaxParser.min.js"></script>
-<script type="text/javascript" src="/deploy/lib/core.min.js"></script>
-<script type="text/javascript" src="/deploy/lib/geom.min.js"></script>
-<script type="text/javascript" src="/deploy/lib/stroke.min.js"></script>
-<script type="text/javascript" src="/deploy/lib/swingundo.min.js"></script>
-<script type="text/javascript" src="/deploy/lib/batik-svgpathparser.min.js"></script>
-<script type="text/javascript" src="/deploy/lib/triangulator.min.js"></script>
-<script type="text/javascript" src="/deploy/lib/graphics2d.min.js"></script>
-<script type="text/javascript" src="/deploy/lib/sweethome3d.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/deploy/css/sweethome3d.css">
+<title>SH3DO demo: edit a test home</title>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/big.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/gl-matrix-min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/jszip.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/jsXmlSaxParser.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/core.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/geom.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/stroke.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/swingundo.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/batik-svgpathparser.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/triangulator.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/graphics2d.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://prod.sh3d.online/lib/sweethome3d.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://prod.sh3d.online/css/sweethome3d.css" crossorigin="anonymous">
+
 <style type="text/css">
 
-/* Add your own styles here */
+#progress {
+  opacity: 70%;
+  z-index: 10;
+  position: absolute;
+  top: 0px;
+  height: 5px;
+  width: 100%;
+}
+
+#progress-bar {
+  background-color: blue;
+  height: 100%;
+}
 
 </style>
 </head>
 <body>
+
+<div id="progress">
+  <div id="progress-bar" style="width: 0%;"></div>
+</div>
 
 <div id="home-pane">
 
@@ -46,31 +63,9 @@
 var homeName = "HomeTest";
 var urlBase = "http://localhost:8080/";
 var application = new SweetHome3DJSApplication(
-    {readHomeURL:       urlBase + "api/readHome/12345/test?home=%s",
-     writeHomeEditsURL: urlBase + "api/writeHomeEdits/12345/test?home=%s",
-     //closeHomeURL:      urlBase + "closeHome.jsp?home=%s",
-     pingURL:           urlBase + "api/ping",
+    {readHomeURL:       urlBase + "api/readHome/12345/test/%s",
      furnitureCatalogURLs: [urlBase + "lib/resources/DefaultFurnitureCatalog.json"],
-     furnitureResourcesURLBase: urlBase,
-     autoWriteDelay:    1000,
-     autoWriteTrackedStateChange: true,
-     writingObserver:   {
-         writeStarted: function(update) {
-           console.info("Update started", update);
-         },
-         writeSucceeded: function(update) {
-           console.info("Update succeeded", update);
-         },
-         writeFailed: function(update, errorStatus, errorText) {
-           console.info("Update failed", update);
-         },
-         connectionFound: function() {
-           console.info("Back to online mode");
-         },
-         connectionLost: function(errorStatus, errorText) {
-           console.info("Lost server connection - going offline");
-         }
-       }
+     furnitureResourcesURLBase: urlBase
     });
 
 // Set a few settings
@@ -83,8 +78,10 @@ application.getHomeRecorder().readHome(homeName,
       homeLoaded: function(home) {
         home.setName(homeName);
         application.addHome(home);
+        setTimeout(function() {
+          document.getElementById('progress').style.display = "none";
+        }, 1000);
         
-        // TODO Should be performed in HomeController.close
         window.addEventListener("unload", function() {
             application.deleteHome(home);
           });
@@ -93,6 +90,8 @@ application.getHomeRecorder().readHome(homeName,
         console.error(err);
       },
       progression: function(part, info, percentage) {
+        percentage = percentage * 100;
+        document.getElementById('progress-bar').style.width = `${percentage}%`;
       }
     });
 </script>
