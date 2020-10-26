@@ -1,8 +1,8 @@
-# Sweet Home 3D Online (SH3DO<sup>beta</sup>) - Getting Started
+# Sweet Home 3D Online (SH3DO) - Getting Started
 
 This git repository gathers the documentation and resources to get started with embeding [SH3DO](https://www.sweethome3d.online) into your own Web Site.
 
-> _NOTE:_ The current version is still beta an may require small adjustments and changes in the future. All will be done to keep the initial API intact and unlikely breaking changes will be carefuly notified to prod users by email.
+> _NOTE:_ The current version is still beta and may require small adjustments and changes in the future. All will be done to keep the initial API intact and unlikely breaking changes will be carefuly notified to prod users by email.
 
 ## Purpose
 
@@ -33,17 +33,15 @@ You can also try out the other demos in the demos directory (also available thro
 
 ## Moving to prod
 
-Convinced with the demos? Now you can embed SH3DO into your actual production website. Please visit [SH3DO](https://www.sweethome3d.online) to carefully select a plan that fits your need and contact me to get the corresponding API key. 
+Convinced with the demos? Now you can embed SH3DO into your actual production website. Please visit [SH3DO](https://www.sweethome3d.online) to carefully select a plan that fits your need and contact CINCHEO to get the corresponding API key. 
 
-Not sure yet how it works or what it can do? Read more in the documentation section below and contact me @[SH3DO](https://www.sweethome3d.online) if you have specific questions.
+Not sure yet how it works or what it can do? Read more in the documentation section below and contact CINCHEO @[SH3DO](https://www.sweethome3d.online) if you have specific questions. Please take into account that this service is still beta and that the documentation will be improved in a close future.
 
-Not sure yet if it can work for your use case? Take into account that CINCHEO also provides development services to customize SH3DO to any business requirements. Please don't hesitate to contact me @[SH3DO](https://www.sweethome3d.online) in order to discuss it.
+Not sure yet if it can work for your use case? Take into account that CINCHEO also provides development services to customize SH3DO to any business requirements. Please don't hesitate to contact CINCHEO @[SH3DO](https://www.sweethome3d.online) in order to discuss it.
 
 ## Documentation
 
 Documentation is available [here](docs/sh3d.online.pdf) ([online version](docs/sh3d.online.md)).
-
-Browse the [docs](docs) directory for more details.
 
 ## History and Licensing Note
 
