@@ -32,6 +32,32 @@
   left: 0px;
 }
 
+@media (orientation: portrait) {
+
+    #home-3D-view {
+      top: calc(50% + 16px);
+      height: calc(50% - 16px);
+    }
+
+    #home-plan {
+      top: 32px;
+      height: calc(50% - 16px);
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      #home-3D-view {
+        top: 0px;
+      }
+
+      #home-plan {
+        top: calc(50% - 16px);
+      }
+    }
+
+}
+
+
+
 #toolbar-button-CREATE_WALLS, #toolbar-button-VIEW_FROM_OBSERVER, #toolbar-button-VIEW_FROM_TOP,
 #toolbar-button-CREATE_ROOMS, #toolbar-button-ADD_LEVEL, #toolbar-button-ADD_LEVEL_AT_SAME_ELEVATION,
 #toolbar-button-DELETE_LEVEL {
