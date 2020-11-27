@@ -122,6 +122,6 @@ Documentation is available [here](docs/sh3d.online.pdf) ([online version](docs/s
 
 SH3DO is built on the top of SweetHome3D Open Source project, which is available on SourceForge. However, SH3DO is *not* Open Source. 
 
-SH3DO is born from a collaboration between CINCHEO (Renaud Pawlak) and eTeks (Emmanuel Puybaret). CINCHEO, creator and owner of [JSweet.org](http://wwww.jsweet.org), helped eTeks to translate the Java version of Sweet Home 3D to JavaScript (partly thanks to the JSweet transpiler). The result of this work is fully Open Source and is available in the SweetHome3DJS project (see www.sweethome3d.com for more details and access the source code on sourceforge.net).
+SH3DO is born from a collaboration between CINCHEO (Renaud Pawlak) and eTeks (Emmanuel Puybaret). CINCHEO, creator and owner of [JSweet.org](http://www.jsweet.org), helped eTeks to translate the Java version of Sweet Home 3D to JavaScript (partly thanks to the JSweet transpiler). The result of this work is fully Open Source and is available in the SweetHome3DJS project (see www.sweethome3d.com for more details and access the source code on sourceforge.net).
 
 Thanks to an exclusive partnership between CINCHEO and eTeks, SH3DO leverages SweetHome3D and SweetHome3DJS to make it SaaS and make it available to anyone with minimal development efforts.
