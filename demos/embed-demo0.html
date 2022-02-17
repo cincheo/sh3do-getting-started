@@ -1,0 +1,90 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>Big Company website</title>
+    <base href="..">
+
+    <style>
+
+        body, iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            padding: 0;
+            margin: 0;
+        }
+        #home-pane-toolbar .toolbar-button {
+            border-radius: 0 !important;
+        }
+    </style>
+</head>
+<body>
+
+<script defer>
+  console.log('my big site is now happy')
+  var iframe = document.createElement("iframe");
+  iframe.src =
+    "http://localhost:8888/test/sh3de?token=fad790f7-ba8e-4326-9649-e06b3dca505e&confURL=http://localhost:8888/demos/embed-demo0.json" +
+    "&ts=" + Date.now();
+  // iframe.src =
+  //   "https://www.sweethome3d.online/embed/?token=fad790f7-ba8e-4326-9649-e06b3dca505e&confURL=http://localhost:8888/test/sh3de/mySH3Dconf.json" +
+  //   "&ts=" + Date.now();
+  iframe.style.width = "100%";
+  iframe.style.height = "100%";
+
+  function sh3deChangeLanguage(language) {
+    iframe.contentWindow.postMessage({
+      type: "setPreferences",
+      parameters: {
+        language: language
+      }
+    }, "*");
+  }
+
+  function sh3deSelectHoodInCatalog() {
+    iframe.contentWindow.postMessage({
+      type: "selectCatalogPieceOfFurniture",
+      parameters: "eTeks#hood"
+    }, "*");
+  }
+
+  function sh3deSelectAFurniture() {
+    iframe.contentWindow.postMessage({
+      type: "selectHomePieceOfFurniture",
+      parameters: "pieceOfFurniture-baef0d0e-a7d1-49f5-b1b7-f210ae832b80"
+    }, "*");
+  }
+
+  window.addEventListener("message", (event) => {
+    if (event.source != iframe.contentWindow) {
+      return;
+    }
+    
+    console.log("SH3De event 🎁: " , event.data.type, event.data);
+    switch (event.data.type) {
+      case 'PlanLoaded': 
+        console.info('home is ready, customer is happy :)');
+        sh3deChangeLanguage("fr");
+        setTimeout(sh3deSelectAFurniture, 1500);
+        setTimeout(sh3deSelectHoodInCatalog, 2000);
+        break;
+      case 'Fancy': 
+        window.open("https://www.youtube.com/watch?v=lWA2pjMjpBs");
+        break;
+      case 'BigCustomerInfo': 
+        alert("Our company is the best, the biggest the finest!");
+        break;
+    }
+  });
+
+
+  document.body.appendChild(iframe);
+</script>
+</body>
+</html>

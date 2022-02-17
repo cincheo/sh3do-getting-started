@@ -1,0 +1,12 @@
+{
+  "homeURL": "https://prod.sh3d.online/api/readHome/12345/test/SweetHome3DExample15-HouseWithDormers",
+  "furnitureCatalogURLs": ["https://prod.sh3d.online/lib/resources/DefaultFurnitureCatalog.json"],
+  "furnitureResourcesURLBase": "https://prod.sh3d.online/",
+  "preferences": {
+    "language": "en",
+    "unit": "CENTIMETER",
+    "currency": "EUR",
+    "magnetismEnabled": true,
+    "gridVisible": true
+  }
+}
