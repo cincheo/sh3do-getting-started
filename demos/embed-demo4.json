@@ -1,5 +1,6 @@
 {
-  "homeURL": "https://prod.sh3d.online/api/readHome/12345/test/HomeTest",
+  "homeURL": "https://prod.sh3d.online/api/readHome/wwwsh3do/default/SweetHome3DExample13-AlpsHotel",
+  "style": "https://prod.sh3d.online/demos/embed-demo4.css",
   "furnitureCatalogURLs": ["https://prod.sh3d.online/lib/resources/DefaultFurnitureCatalog.json"],
   "furnitureResourcesURLBase": "https://prod.sh3d.online/",
   "preferences": {

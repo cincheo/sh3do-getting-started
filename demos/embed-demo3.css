@@ -1,0 +1,12 @@
+#home-3D-view {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    position: fixed;
+    z-index: 10000000;
+}
+#level-selector {
+    display: none !important;
+}

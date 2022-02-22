@@ -1,0 +1,49 @@
+{
+  "homeURL": "https://www.sweethome3d.online/embed/resources/empty.sh3d",
+  "style": "https://prod.sh3d.online/demos/embed-demo6.css",
+  "furnitureCatalogURLs": [
+    "https://prod.sh3d.online/lib/resources/DefaultFurnitureCatalog.json"
+  ],
+  "furnitureResourcesURLBase": "https://prod.sh3d.online/",
+  "preferences": {
+    "language": "es",
+    "unit": "CENTIMETER",
+    "currency": "EUR",
+    "magnetismEnabled": true,
+    "gridVisible": true,
+    "valueAddedTaxEnabled": true
+  },
+  "setFurnitureCatalogTooltipTemplate": "<center>{{category.name}} &gt; {{name}}</center>",
+  "showPreferenceProperties": {
+    "RULERS_VISIBLE": true,
+    "MAGNETISM_ENABLED": false
+  },
+  "showFurnitureCatalogColumns": {
+    "WIDTH": true,
+    "DEPTH": true
+  },
+  "toolbarButtons": {
+    "group1": {
+      "sh3de://exportToPng": {
+        "title": "Export me please",
+        "iconURL": "https://iconarchive.com/download/i90436/icons8/windows-8/Data-Export.ico",
+        "disabled": true
+      },
+      "Fancy": {
+        "title": "Fancy feature",
+        "iconURL": "https://as2.ftcdn.net/v2/jpg/01/14/01/45/1000_F_114014537_My8AHGK9F5kpFyebu3J5HNMCwG6H9zQL.jpg"
+      }
+    },
+    "group2": {
+      "alignment": "right",
+      "sh3de://clearLocalEdits": {
+        "title": "Clear my local modifications on this plan",
+        "iconURL": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNzUycHQiIGhlaWdodD0iNzUycHQiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDc1MiA3NTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiA8cGF0aCBkPSJtNDkzLjQ1IDUwNy42NmMtMTAuODkxLTE0LjIwNy0xNy4wNTEtMzIuMjAzLTE3LjA1MS01MC4xOTlsMC4wMDM5MDYtODAuOThjMjMuMjA3LTI2LjUyIDM1Ljk5Mi02Mi4wMzkgMzMuMTUyLTEwMC44Ny01LjIxMDktNjYuMzAxLTU5LjE5OS0xMTkuODItMTI1LjUtMTI1LjAyLTc3LjY2OC02LjE1NjItMTQyLjU1IDUyLjA5NC0xNDcuNzYgMTI3LjM5djMuMzA4NmMwIDEyLjMxMi00LjczNDQgMzEuNzMtMTAuNDE4IDQyLjYyMS02LjE1NjIgMTEuMzY3LTEyLjMxMiAyMi43My0xNy41MjMgMzAuNzgxLTUuMjEwOSA4LjA1MDggMC40NzI2NiAxOC40NjkgOS45NDUzIDE4LjQ2OWgxNy45OTZ2NjUuODI4YzAgMTMuMjYyIDEwLjg5MSAyNC4xNTIgMjQuMTUyIDI0LjE1Mmg0OS43Mjd2MjUuMTAyYzAgMTcuMDUxLTYuNjI4OSAzMy42MjUtMTguOTQxIDQ1LjQ2NWwtMzcuODg3IDM4LjM1OWMtMTAuODkxIDExLjM2Ny0zLjMxNjQgMzAuMzA5IDEyLjMxMiAzMC4zMDloMjYwLjk0YzE1LjYyOSAwIDI0LjYyNS0xNy45OTYgMTUuMTU2LTMwLjc4MXptLTEyMC4yOS0xMTQuMTNjLTU5LjE5OSAwLTEwNy4wMy00Ny44MzItMTA3LjAzLTEwNy4wMyAwLTU5LjE5OSA0Ny44MzItMTA3LjAzIDEwNy4wMy0xMDcuMDMgNTkuMTk5LTAuMDAzOTA2IDEwNy4wMyA0OC4zMDEgMTA3LjAzIDEwNy41IDAgNTguNzIzLTQ4LjMwNSAxMDYuNTUtMTA3LjAzIDEwNi41NXptNTguMjUtMTY1LjI4Yy0zMi4yMDMtMzIuMjA3LTg0Ljc3LTMyLjIwNy0xMTYuOTcgMC0zMi4yMDMgMzIuMjAzLTMyLjIwMyA4NC4yOTcgMCAxMTYuNXM4NC4yOTcgMzIuMjAzIDExNi41IDBjMzIuNjc2LTMxLjczIDMyLjY3Ni04NC4yOTcgMC40NzI2Ni0xMTYuNXptLTIxLjc4NSA3OS4wODYtMTUuNjI5IDE1LjYyOS0yMC4zNjMtMjAuMzYzLTIxLjMwOSAyMC4zNjMtMTUuNjI5LTE1LjYyOSAyMC4zNjMtMjAuMzYzLTIwLjM2My0yMC4zNjMgMTUuNjI5LTE1LjYyOSAyMC4zNjMgMjAuMzYzIDIwLjM2My0yMC4zNjMgMTUuNjI5IDE1LjYyOS0yMC4zNjMgMjAuMzYzeiIvPgo8L3N2Zz4K"
+      },
+      "BigCustomerInfo": {
+        "title": "Tell me more, tell me more",
+        "iconURL": "https://metz.catholique.fr/wp-content/uploads/sites/19/2020/10/info-icone.png"
+      }
+    }
+  }
+}

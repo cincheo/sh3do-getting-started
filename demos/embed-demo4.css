@@ -1,0 +1,14 @@
+#home-3D-view {
+    height: 0;
+    display: none;
+}
+#home-plan {
+    height: 100% !important;
+    width: calc(100%);
+}
+#level-selector {
+    display: none !important;
+}
+#plan-3D-view-splitter {
+    display: none !important;
+}

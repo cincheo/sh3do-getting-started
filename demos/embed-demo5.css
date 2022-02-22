@@ -1,0 +1,28 @@
+#catalog-furniture-pane {
+    display: none;
+}
+
+#furniture-plan-splitter {
+    display: none !important;
+}
+
+#level-selector {
+    display: none !important;
+}
+
+#plan-3D-view-pane {
+    left: 0;
+    width: 100%;
+}
+
+#home-3D-view,
+#home-plan {
+    width: 100%;
+    left: 0px;
+}
+
+#toolbar-button-CREATE_WALLS, #toolbar-button-VIEW_FROM_OBSERVER, #toolbar-button-VIEW_FROM_TOP,
+#toolbar-button-CREATE_ROOMS, #toolbar-button-ADD_LEVEL, #toolbar-button-ADD_LEVEL_AT_SAME_ELEVATION,
+#toolbar-button-DELETE_LEVEL, #toolbar-button-PREFERENCES {
+  display: none;
+}
