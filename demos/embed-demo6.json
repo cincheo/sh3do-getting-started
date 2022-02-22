@@ -4,7 +4,7 @@
   "furnitureCatalogURLs": [
     "https://prod.sh3d.online/lib/resources/DefaultFurnitureCatalog.json"
   ],
-  "furnitureResourcesURLBase": "https://prod.sh3d.online/",
+  "furnitureResourcesURLBase": "https://www.sweethome3d.online/",
   "preferences": {
     "language": "es",
     "unit": "CENTIMETER",
@@ -13,7 +13,7 @@
     "gridVisible": true,
     "valueAddedTaxEnabled": true
   },
-  "setFurnitureCatalogTooltipTemplate": "<center>{{category.name}} &gt; {{name}}</center>",
+  "setFurnitureCatalogTooltipTemplate": "<center>Meuble : {{category.name}} &gt; {{name}}</center>",
   "showPreferenceProperties": {
     "RULERS_VISIBLE": true,
     "MAGNETISM_ENABLED": false
@@ -26,12 +26,12 @@
     "group1": {
       "sh3de://exportToPng": {
         "title": "Export me please",
-        "iconURL": "https://iconarchive.com/download/i90436/icons8/windows-8/Data-Export.ico",
-        "disabled": true
+        "iconURL": "https://iconarchive.com/download/i90436/icons8/windows-8/Data-Export.ico"
       },
       "Fancy": {
         "title": "Fancy feature",
-        "iconURL": "https://as2.ftcdn.net/v2/jpg/01/14/01/45/1000_F_114014537_My8AHGK9F5kpFyebu3J5HNMCwG6H9zQL.jpg"
+        "iconURL": "https://as2.ftcdn.net/v2/jpg/01/14/01/45/1000_F_114014537_My8AHGK9F5kpFyebu3J5HNMCwG6H9zQL.jpg",
+        "disabled": true
       }
     },
     "group2": {
