@@ -1,7 +1,7 @@
 {
-  "homeURL": "http://localhost:8888/demos/SweetHome3DExample15-HouseWithDormers",
-  "furnitureCatalogURLs": ["http://localhost:8888/demos/DefaultFurnitureCatalog.json"],
-  "furnitureResourcesURLBase": "http://localhost:8888/",
+  "homeURL": "https://prod.sh3d.online/api/readHome/wwwsh3do/default/SweetHome3DExample15-HouseWithDormers",
+  "furnitureCatalogURLs": ["https://prod.sh3d.online/lib/resources/DefaultFurnitureCatalog.json"],
+  "furnitureResourcesURLBase": "https://prod.sh3d.online/",
   "preferences": {
     "newRoomFloorColor": "0xFF9999A0",
     "aerialViewCenteredOnSelection": false
