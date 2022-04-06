@@ -4,6 +4,6 @@
   "furnitureResourcesURLBase": "https://prod.sh3d.online/",
   "preferences": {
     "newRoomFloorColor": "0xFF9999A0",
-    "aerialViewCenteredOnSelection": false
+    "aerialViewCenteredOnSelection": true
   }
 }
