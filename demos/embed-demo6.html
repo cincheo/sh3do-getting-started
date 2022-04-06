@@ -64,6 +64,12 @@
           sh3deChangeLanguage("fr");
           setTimeout(sh3deSelectAFurniture, 1500);
           setTimeout(sh3deSelectHoodInCatalog, 2000);
+
+          setTimeout(function() {
+            if (event.data.type == "PlanLoaded") {
+              iframe.contentWindow.postMessage({ type: "onAppReady" }, "*");
+            }
+          }, 2500);
           break;
         case 'Fancy':
           window.open("https://www.youtube.com/watch?v=lWA2pjMjpBs");

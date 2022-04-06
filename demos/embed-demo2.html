@@ -32,7 +32,7 @@
       }
       console.log("SH3De event 🎁: " , event.data.type, event.data);
       if (event.data.type == "PlanLoaded") {
-        console.info("home is ready");
+        iframe.contentWindow.postMessage({ type: "onAppReady" }, "*");
       }
     });
   </script>

@@ -31,6 +31,9 @@
         return;
       }
       console.log("SH3De event 🎁: " , event.data.type, event.data);
+      if (event.data.type == "PlanLoaded") {
+        iframe.contentWindow.postMessage({ type: "onAppReady" }, "*");
+      }
     });
   </script>
 </body>
